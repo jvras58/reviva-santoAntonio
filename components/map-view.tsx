@@ -8,48 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import "mapbox-gl/dist/mapbox-gl.css"
-
-const santoAntonioGeoJSON = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: {
-        EBAIRRNOME: "Santo Antônio",
-        CBAIRRCODI: 27,
-        area: 838233.94,
-      },
-      geometry: {
-        type: "MultiPolygon",
-        coordinates: [
-          [
-            [
-              [-43.9356, -19.9245],
-              [-43.9298, -19.9267],
-              [-43.9276, -19.9289],
-              [-43.9254, -19.9312],
-              [-43.9243, -19.9334],
-              [-43.9265, -19.9356],
-              [-43.9287, -19.9378],
-              [-43.9309, -19.9401],
-              [-43.9331, -19.9423],
-              [-43.9353, -19.9445],
-              [-43.9375, -19.9423],
-              [-43.9397, -19.9401],
-              [-43.9419, -19.9378],
-              [-43.9441, -19.9356],
-              [-43.9419, -19.9334],
-              [-43.9397, -19.9312],
-              [-43.9375, -19.9289],
-              [-43.9356, -19.9267],
-              [-43.9356, -19.9245],
-            ],
-          ],
-        ],
-      },
-    },
-  ],
-}
+import { santoAntonioGeoJSON } from "@/data/santo-antonio"
 
 interface PopupInfo {
   longitude: number
@@ -74,7 +33,7 @@ export function MapView() {
         properties: {
           EBAIRRNOME: feature.properties.EBAIRRNOME,
           CBAIRRCODI: feature.properties.CBAIRRCODI,
-          area: feature.properties.area,
+          area: feature.properties["DB2GSE.ST_Area(SHAPE)"],
         },
       })
     }
@@ -88,8 +47,8 @@ export function MapView() {
         <Map
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
           initialViewState={{
-            longitude: -43.935,
-            latitude: -19.933,
+            longitude: -34.88,
+            latitude: -8.06,
             zoom: 14,
             pitch: 60,
             bearing: -17.6,
