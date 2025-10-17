@@ -8,9 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Sigma - Dados Urbanos Acessíveis",
+  title: "rEViVa - Santo Antônio",
   description: "Traduzindo dados complexos em oportunidades urbanas reais",
-  generator: "v0.app",
 }
 
 export default function RootLayout({
