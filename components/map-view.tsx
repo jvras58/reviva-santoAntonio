@@ -1,50 +1,43 @@
 "use client"
 
-import { useState } from "react"
-import Map, { Source, Layer, Popup, NavigationControl } from "react-map-gl/mapbox"
-import type { MapMouseEvent } from "react-map-gl/mapbox"
+import { useRef } from "react"
+import Map, { Source, Layer, NavigationControl } from "react-map-gl/mapbox"
 import { MapSidebar } from "@/components/map-sidebar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { SearchBar } from "@/components/search-bar"
+import { BuildingSidebar } from "@/components/building-sidebar"
+import { useBuildingInfo } from "@/hooks/use-building-info"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { santoAntonioGeoJSON, maskGeoJSON } from "@/data/santo-antonio"
 
-interface PopupInfo {
-  longitude: number
-  latitude: number
-  properties: {
-    EBAIRRNOME: string
-    CBAIRRCODI: number
-    area: number
-  }
-}
-
 export function MapView() {
-  const [searchValue, setSearchValue] = useState("")
-  const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null)
+  const mapRef = useRef<any>(null)
+  const { buildingInfo, selectedFeatureId, handleBuildingClick, closeBuildingInfo } = useBuildingInfo()
 
-  const onClick = (event: MapMouseEvent) => {
-    const feature = event.features?.[0]
-    if (feature && feature.properties) {
-      setPopupInfo({
-        longitude: event.lngLat.lng,
-        latitude: event.lngLat.lat,
-        properties: {
-          EBAIRRNOME: feature.properties.EBAIRRNOME,
-          CBAIRRCODI: feature.properties.CBAIRRCODI,
-          area: feature.properties["DB2GSE.ST_Area(SHAPE)"],
-        },
+  console.log('MapView render - buildingInfo:', buildingInfo, 'selectedFeatureId:', selectedFeatureId)
+
+  const handleSelectLocation = (center: [number, number]) => {
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center,
+        zoom: 16,
+        pitch: 60,
+        bearing: -17.6,
       })
     }
+  }
+
+  const onBuildingClick = (event: any) => {
+    handleBuildingClick(event, mapRef)
   }
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       <MapSidebar />
 
-      <div className="absolute inset-0 ml-[60px]">
+      <div className={`absolute inset-0 ml-[60px] transition-all duration-300 ${buildingInfo ? 'mr-[320px]' : ''}`}>
         <Map
+          ref={mapRef}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
           initialViewState={{
             longitude: -34.88,
@@ -55,14 +48,8 @@ export function MapView() {
           }}
           style={{ width: "100%", height: "100%" }}
           mapStyle="mapbox://styles/mapbox/light-v11"
-          interactiveLayerIds={["santo-antonio-outline"]}
-          onClick={onClick}
-          onMouseEnter={() => {
-            document.body.style.cursor = "pointer"
-          }}
-          onMouseLeave={() => {
-            document.body.style.cursor = ""
-          }}
+          interactiveLayerIds={["3d-buildings"]}
+          onClick={onBuildingClick}
           minZoom={14}
           maxZoom={18}
           maxBounds={[[-34.885, -8.068], [-34.874, -8.059]]}
@@ -105,44 +92,51 @@ export function MapView() {
             }}
           />
 
-          {popupInfo && (
-            <Popup
-              longitude={popupInfo.longitude}
-              latitude={popupInfo.latitude}
-              anchor="bottom"
-              onClose={() => setPopupInfo(null)}
-              closeButton={true}
-              closeOnClick={false}
+          {/* Selected building highlight - always use coordinate-based marker */}
+          {selectedFeatureId && buildingInfo && (
+            <Source
+              id="selection-marker"
+              type="geojson"
+              data={{
+                type: "FeatureCollection",
+                features: [{
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [buildingInfo.longitude, buildingInfo.latitude]
+                  },
+                  properties: {}
+                }]
+              }}
             >
-              <div className="p-3 font-sans">
-                <h3 className="mb-2 text-base font-semibold text-blue-900">
-                  {popupInfo.properties.EBAIRRNOME || "N/A"}
-                </h3>
-                <p className="my-1 text-sm text-gray-700">
-                  <strong>Código:</strong> {popupInfo.properties.CBAIRRCODI || "N/A"}
-                </p>
-                <p className="my-1 text-sm text-gray-700">
-                  <strong>Área:</strong> {popupInfo.properties.area?.toFixed(2) || "N/A"} m²
-                </p>
-              </div>
-            </Popup>
+              <Layer
+                id="selection-marker-circle"
+                type="circle"
+                paint={{
+                  "circle-radius": 12,
+                  "circle-color": "#ff6b35",
+                  "circle-stroke-width": 3,
+                  "circle-stroke-color": "#ffffff",
+                  "circle-opacity": 0.9
+                }}
+              />
+              {/* Add a pulsing effect with another circle */}
+              <Layer
+                id="selection-marker-pulse"
+                type="circle"
+                paint={{
+                  "circle-radius": 20,
+                  "circle-color": "#ff6b35",
+                  "circle-opacity": 0.3,
+                  "circle-stroke-width": 0
+                }}
+              />
+            </Source>
           )}
         </Map>
       </div>
 
-      {/* Search bar */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 w-full max-w-md px-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Digite o endereço"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="pl-10 bg-white shadow-lg border-0 h-12 rounded-full"
-          />
-        </div>
-      </div>
+      <SearchBar onSelectLocation={handleSelectLocation} />
 
       {/* CTA Button */}
       <div className="absolute bottom-6 right-6 z-10">
@@ -150,6 +144,8 @@ export function MapView() {
           Entre em contato com um dos nossos agentes
         </Button>
       </div>
+
+      <BuildingSidebar buildingInfo={buildingInfo} onClose={closeBuildingInfo} />
     </div>
   )
 }
