@@ -22,7 +22,7 @@ export function Header() {
           <Link href="#informacoes" className="text-sm font-medium hover:text-primary transition-colors">
             Conteúdos
           </Link>
-          <Link href="#projetos" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link href="#contato" className="text-sm font-medium hover:text-primary transition-colors">
             Suporte
           </Link>
         </nav>
