@@ -12,9 +12,9 @@ import { santoAntonioGeoJSON, maskGeoJSON } from "@/data/santo-antonio"
 
 export function MapView() {
   const mapRef = useRef<any>(null)
-  const { buildingInfo, selectedFeatureId, handleBuildingClick, closeBuildingInfo } = useBuildingInfo()
+  const { buildingInfo, selectedFeatureId, isLoading, error, handleBuildingClick, closeBuildingInfo } = useBuildingInfo()
 
-  console.log('MapView render - buildingInfo:', buildingInfo, 'selectedFeatureId:', selectedFeatureId)
+  console.log('MapView render - buildingInfo:', buildingInfo, 'selectedFeatureId:', selectedFeatureId, 'isLoading:', isLoading, 'error:', error)
 
   const handleSelectLocation = (center: [number, number]) => {
     if (mapRef.current) {
@@ -35,7 +35,7 @@ export function MapView() {
     <div className="relative h-screen w-screen overflow-hidden">
       <MapSidebar />
 
-      <div className={`absolute inset-0 ml-[60px] transition-all duration-300 ${buildingInfo ? 'mr-[320px]' : ''}`}>
+      <div className={`absolute inset-0 ml-[60px] transition-all duration-300 ${buildingInfo || isLoading ? 'mr-[320px]' : ''}`}>
         <Map
           ref={mapRef}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -145,7 +145,12 @@ export function MapView() {
         </Button>
       </div>
 
-      <BuildingSidebar buildingInfo={buildingInfo} onClose={closeBuildingInfo} />
+      <BuildingSidebar
+        buildingInfo={buildingInfo}
+        isLoading={isLoading}
+        error={error}
+        onClose={closeBuildingInfo}
+      />
     </div>
   )
 }
