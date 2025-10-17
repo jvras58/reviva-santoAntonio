@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import Map, { Source, Layer, Popup, NavigationControl } from "react-map-gl"
-import type { MapLayerMouseEvent } from "react-map-gl"
+import Map, { Source, Layer, Popup, NavigationControl } from "react-map-gl/mapbox"
+import type { MapMouseEvent } from "react-map-gl/mapbox"
 import { MapSidebar } from "@/components/map-sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -65,7 +65,7 @@ export function MapView() {
   const [searchValue, setSearchValue] = useState("")
   const [popupInfo, setPopupInfo] = useState<PopupInfo | null>(null)
 
-  const onClick = (event: MapLayerMouseEvent) => {
+  const onClick = (event: MapMouseEvent) => {
     const feature = event.features?.[0]
     if (feature && feature.properties) {
       setPopupInfo({
