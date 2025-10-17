@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import "mapbox-gl/dist/mapbox-gl.css"
-import { santoAntonioGeoJSON } from "@/data/santo-antonio"
+import { santoAntonioGeoJSON, maskGeoJSON } from "@/data/santo-antonio"
 
 interface PopupInfo {
   longitude: number
@@ -55,7 +55,7 @@ export function MapView() {
           }}
           style={{ width: "100%", height: "100%" }}
           mapStyle="mapbox://styles/mapbox/light-v11"
-          interactiveLayerIds={["santo-antonio-fill"]}
+          interactiveLayerIds={["santo-antonio-outline"]}
           onClick={onClick}
           onMouseEnter={() => {
             document.body.style.cursor = "pointer"
@@ -63,18 +63,23 @@ export function MapView() {
           onMouseLeave={() => {
             document.body.style.cursor = ""
           }}
+          minZoom={14}
+          maxZoom={18}
+          maxBounds={[[-34.885, -8.068], [-34.874, -8.059]]}
         >
           <NavigationControl position="top-right" />
 
-          <Source id="santo-antonio" type="geojson" data={santoAntonioGeoJSON as any}>
+          <Source id="mask" type="geojson" data={maskGeoJSON as any}>
             <Layer
-              id="santo-antonio-fill"
+              id="mask-fill"
               type="fill"
               paint={{
-                "fill-color": "#3B82F6",
-                "fill-opacity": 0.3,
+                "fill-color": "#ffffff",
               }}
             />
+          </Source>
+
+          <Source id="santo-antonio" type="geojson" data={santoAntonioGeoJSON as any}>
             <Layer
               id="santo-antonio-outline"
               type="line"
