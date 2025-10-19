@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { RecifeRealEstateAPI, BuildingData } from "@/lib/recife-api"
 
 interface BuildingInfo {
   id: string
@@ -31,7 +30,7 @@ interface UseBuildingInfoReturn {
   error: string | null
   handleBuildingClick: (event: any, mapRef: any) => Promise<void>
   closeBuildingInfo: () => void
-  searchBuildings: (query: string) => Promise<BuildingData[]>
+  searchBuildings: (query: string) => Promise<any[]>
 }
 
 export function useBuildingInfo(): UseBuildingInfoReturn {
@@ -48,72 +47,33 @@ export function useBuildingInfo(): UseBuildingInfoReturn {
       setIsLoading(true)
       setError(null)
 
-      console.log('🏢 Building clicked!')
-      console.log('Feature:', feature)
-      console.log('Coordinates:', event.lngLat)
-
-      // Reset previous selection
       setSelectedFeatureId(null)
       setBuildingInfo(null)
 
       const coords = event.lngLat
 
-      // Try to get real data from Recife API
-      const realBuildingData = await RecifeRealEstateAPI.getBuildingByCoordinates(
-        coords.lng,
-        coords.lat
-      )
-
-      let buildingData: BuildingInfo
-
-      if (realBuildingData) {
-        // Use real API data
-        buildingData = {
-          id: realBuildingData.id,
-          longitude: coords.lng,
-          latitude: coords.lat,
-          name: realBuildingData.name,
-          area: `${realBuildingData.area} m²`,
-          price: realBuildingData.price ? `R$ ${realBuildingData.price.toLocaleString('pt-BR')},00` : 'Sob consulta',
-          description: realBuildingData.description,
-          image: realBuildingData.images[0] || "https://via.placeholder.com/300x200?text=Imagem+não+disponível",
-          images: realBuildingData.images,
-          features: realBuildingData.features,
-          address: realBuildingData.address,
-          type: realBuildingData.type,
-          status: realBuildingData.status,
-          proprietario: realBuildingData.proprietario,
-          topografia: realBuildingData.topografia,
-          edificacao_tipo: realBuildingData.edificacao_tipo,
-          conservacao_estado: realBuildingData.conservacao_estado,
-          tributario_regime: realBuildingData.tributario_regime
-        }
-      } else {
-        // Fallback to mock data if API fails
-        console.warn('Using mock data - API not available')
-        buildingData = {
-          id: `coord_${Math.round(coords.lng * 10000)}_${Math.round(coords.lat * 10000)}`,
-          longitude: coords.lng,
-          latitude: coords.lat,
-          name: "Edifício Empresarial Centro",
-          area: "500 m²",
-          price: "R$ 2.500.000,00",
-          description: "Espaço comercial disponível para locação ou venda. Ideal para escritórios ou lojas. Dados obtidos de fontes públicas do município.",
-          image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400",
-          images: [
-            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400",
-            "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400"
-          ],
-          features: ["Comercial", "Centro", "Vista para o mar"],
-          address: "Centro Histórico - Recife/PE",
-          type: "comercial",
-          status: "ativo",
-          proprietario: "Prefeitura do Recife",
-          topografia: "Plana",
-          edificacao_tipo: "Comercial",
-          conservacao_estado: "Bom",
-          tributario_regime: "ITBI"
-        }
+      const buildingData: BuildingInfo = {
+        id: `coord_${Math.round(coords.lng * 10000)}_${Math.round(coords.lat * 10000)}`,
+        longitude: coords.lng,
+        latitude: coords.lat,
+        name: "Edifício Empresarial Centro",
+        area: "500 m²",
+        price: "R$ 2.500.000,00",
+        description: "Espaço comercial disponível para locação ou venda. Ideal para escritórios ou lojas. Dados obtidos de fontes públicas do município.",
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400",
+        images: [
+          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400",
+          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400"
+        ],
+        features: ["Comercial", "Centro", "Vista para o mar"],
+        address: "Centro Histórico - Recife/PE",
+        type: "comercial",
+        status: "ativo",
+        proprietario: "Prefeitura do Recife",
+        topografia: "Plana",
+        edificacao_tipo: "Comercial",
+        conservacao_estado: "Bom",
+        tributario_regime: "ITBI"
       }
 
       setBuildingInfo(buildingData)
@@ -121,7 +81,6 @@ export function useBuildingInfo(): UseBuildingInfoReturn {
 
       console.log('Building data loaded:', buildingData)
 
-      // Zoom in to the building
       if (mapRef.current) {
         console.log('Zooming to building...')
         mapRef.current.flyTo({
@@ -147,13 +106,9 @@ export function useBuildingInfo(): UseBuildingInfoReturn {
     setError(null)
   }, [])
 
-  const searchBuildings = useCallback(async (query: string): Promise<BuildingData[]> => {
-    try {
-      return await RecifeRealEstateAPI.searchBuildings(query)
-    } catch (error) {
-      console.error('Error searching buildings:', error)
-      return []
-    }
+  const searchBuildings = useCallback(async (query: string): Promise<any[]> => {
+    // Return empty array for mock data
+    return []
   }, [])
 
   return {

@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic"
 import React from "react"
 
-const MapView = dynamic(() => import("@/components/map-view").then((mod) => mod.MapView), {
+const MapLayout = dynamic(() => import("@/components/map-layout").then((mod) => mod.MapLayout), {
   ssr: false,
   loading: () => (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-100">
@@ -16,5 +16,5 @@ const MapView = dynamic(() => import("@/components/map-view").then((mod) => mod.
 })
 
 export default function MapaPage() {
-  return <MapView />
+  return <MapLayout />
 }

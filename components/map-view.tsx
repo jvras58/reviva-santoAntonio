@@ -2,40 +2,20 @@
 
 import { useRef } from "react"
 import Map, { Source, Layer, NavigationControl } from "react-map-gl/mapbox"
-import { MapSidebar } from "@/components/map-sidebar"
-import { Button } from "@/components/ui/button"
-import { SearchBar } from "@/components/search-bar"
-import { BuildingSidebar } from "@/components/building-sidebar"
-import { useBuildingInfo } from "@/hooks/use-building-info"
-import "mapbox-gl/dist/mapbox-gl.css"
 import { santoAntonioGeoJSON, maskGeoJSON } from "@/data/santo-antonio"
 
-export function MapView() {
+interface MapViewProps {
+  selectedFeatureId?: string | null
+  buildingInfo?: any
+  onBuildingClick?: (event: any) => void
+}
+
+export function MapView({ selectedFeatureId, buildingInfo, onBuildingClick }: MapViewProps) {
   const mapRef = useRef<any>(null)
-  const { buildingInfo, selectedFeatureId, isLoading, error, handleBuildingClick, closeBuildingInfo } = useBuildingInfo()
-
-  console.log('MapView render - buildingInfo:', buildingInfo, 'selectedFeatureId:', selectedFeatureId, 'isLoading:', isLoading, 'error:', error)
-
-  const handleSelectLocation = (center: [number, number]) => {
-    if (mapRef.current) {
-      mapRef.current.flyTo({
-        center,
-        zoom: 16,
-        pitch: 60,
-        bearing: -17.6,
-      })
-    }
-  }
-
-  const onBuildingClick = (event: any) => {
-    handleBuildingClick(event, mapRef)
-  }
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
-      <MapSidebar />
-
-      <div className={`absolute inset-0 ml-[60px] transition-all duration-300 ${buildingInfo || isLoading ? 'mr-[320px]' : ''}`}>
+      <div className="absolute inset-0">
         <Map
           ref={mapRef}
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -92,7 +72,7 @@ export function MapView() {
             }}
           />
 
-          {/* Selected building highlight - always use coordinate-based marker */}
+          {/* Selected building highlight */}
           {selectedFeatureId && buildingInfo && (
             <Source
               id="selection-marker"
@@ -120,7 +100,6 @@ export function MapView() {
                   "circle-opacity": 0.9
                 }}
               />
-              {/* Add a pulsing effect with another circle */}
               <Layer
                 id="selection-marker-pulse"
                 type="circle"
@@ -135,22 +114,6 @@ export function MapView() {
           )}
         </Map>
       </div>
-
-      <SearchBar onSelectLocation={handleSelectLocation} />
-
-      {/* CTA Button */}
-      <div className="absolute bottom-6 right-6 z-10">
-        <Button size="lg" className="shadow-lg rounded-full px-6 py-6 text-base">
-          Entre em contato com um dos nossos agentes
-        </Button>
-      </div>
-
-      <BuildingSidebar
-        buildingInfo={buildingInfo}
-        isLoading={isLoading}
-        error={error}
-        onClose={closeBuildingInfo}
-      />
     </div>
   )
 }
