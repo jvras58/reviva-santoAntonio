@@ -34,11 +34,15 @@ Nosso objetivo é entregar todas as informações já coletadas pelos órgãos r
 
 ## Equipe
 
-Elisa             [Negócios e Marketing/Designer]()
-Maria Julia       [Arquiteta/Designer](https://www.linkedin.com/in/-majujab)
-Maria Viana       [Arquiteta/Designer]()
-Sthefany De França [Arquiteta](https://www.linkedin.com/in/sthefany-de-fran%C3%A7a-lima-672b54147/)
-Jonathas Vinicius  [Desenvolvedor/IA](https://www.linkedin.com/in/-jonathasvinicius/)
+<div align="center">
+  <ul>
+    <li>Elisa - <strong>Negócios e Marketing/Designer</strong></li>
+    <li><a href="https://www.linkedin.com/in/-majujab">Maria Julia</a> - <strong>Arquiteta/Designer</strong></li>
+    <li>Maria Viana - <strong>Arquiteta/Designer</strong></li>
+    <li><a href="https://www.linkedin.com/in/sthefany-de-fran%C3%A7a-lima-672b54147/">Sthefany De França</a> - <strong>Arquiteta</strong></li>
+    <li><a href="https://www.linkedin.com/in/-jonathasvinicius/">Jonathas Vinicius</a> - <strong>Desenvolvedor/IA</strong></li>
+  </ul>
+</div>
 
 ## Licença
 
