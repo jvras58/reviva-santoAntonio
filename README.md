@@ -1,30 +1,45 @@
-# Urban data landing page
+# reVIVA Santo Antônio!
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+<div align="center">
+  <img src="public/logo.jpg" alt="Logo do Projeto">
+</div>
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/jvras58s-projects/v0-urban-data-landing-page)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/kt3mqbkT1wk)
+Projeto desenvolvido como protótipo para o hackathon do RecnPlay 2025 (HACKATHON FRA-BRA DE INOVAÇÃO SUSTENTÁVEL - 2025).
 
-## Overview
+## Ideia
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+O reVIVA Santo Antônio é uma aplicação que permite ao usuário buscar, através do cruzamento de dados, o imóvel perfeito para o seu empreendimento ideal por meio de um mapa interativo.
 
-## Deployment
+Nosso objetivo é entregar todas as informações já coletadas pelos órgãos responsáveis ao investidor, otimizando sua tomada de decisão.
 
-Your project is live at:
+> **Nota:** Este projeto é apenas uma representação e não está conectado a nenhuma API além das APIs de pesquisa e do Mapbox para o funcionamento do mapa.
 
-**[https://vercel.com/jvras58s-projects/v0-urban-data-landing-page](https://vercel.com/jvras58s-projects/v0-urban-data-landing-page)**
+### Inspiração
 
-## Build your app
+- [Informações Geográficas do Recife (e-SIG)](https://www2.recife.pe.gov.br/servico/informacoes-geograficas-do-recife-esig)
+- [OSPA Place](https://www.ospa.place/)
+- [QGIS](https://qgis.org/)
 
-Continue building your app on:
+## Tecnologias Utilizadas
 
-**[https://v0.app/chat/projects/kt3mqbkT1wk](https://v0.app/chat/projects/kt3mqbkT1wk)**
+### Mapa Interativo
+- [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/)
+- [React Map GL](https://visgl.github.io/react-map-gl/)
 
-## How It Works
+## Documentos
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+- **Protótipo do Figma:** [docs/PROTOTIPO.pdf](docs/PROTOTIPO.pdf)
+- **Slide usado na apresentação:** [docs/reVIVA.pdf](docs/reVIVA.pdf)
+- **Link do protótipo no Figma:** [Acessar Protótipo](https://www.figma.com/proto/gLib3130WRGDICWLWx8XES/HACKA-PROTOTIPO?node-id=155-12&t=bLHXdmiKtZbzZMxP-1)
+
+## Equipe
+
+Elisa             [Negócios e Marketing/Designer]()
+Maria Julia       [Arquiteta/Designer](https://www.linkedin.com/in/-majujab)
+Maria Viana       [Arquiteta/Designer]()
+Sthefany De França [Arquiteta](https://www.linkedin.com/in/sthefany-de-fran%C3%A7a-lima-672b54147/)
+Jonathas Vinicius  [Desenvolvedor/IA](https://www.linkedin.com/in/-jonathasvinicius/)
+
+## Licença
+
+Este projeto está licenciado sob a [Licença MIT](LICENSE).
