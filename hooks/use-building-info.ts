@@ -30,7 +30,6 @@ interface UseBuildingInfoReturn {
   error: string | null
   handleBuildingClick: (event: any, mapRef: any) => Promise<void>
   closeBuildingInfo: () => void
-  searchBuildings: (query: string) => Promise<any[]>
 }
 
 export function useBuildingInfo(): UseBuildingInfoReturn {
@@ -106,18 +105,12 @@ export function useBuildingInfo(): UseBuildingInfoReturn {
     setError(null)
   }, [])
 
-  const searchBuildings = useCallback(async (query: string): Promise<any[]> => {
-    // Return empty array for mock data
-    return []
-  }, [])
-
   return {
     buildingInfo,
     selectedFeatureId,
     isLoading,
     error,
     handleBuildingClick,
-    closeBuildingInfo,
-    searchBuildings
+    closeBuildingInfo
   }
 }

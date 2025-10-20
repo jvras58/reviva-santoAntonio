@@ -3,7 +3,6 @@
 import { useRef } from "react"
 import { MapView } from "@/components/map-view"
 import { MapSidebar } from "@/components/map-sidebar"
-import { Button } from "@/components/ui/button"
 import { SearchBar } from "@/components/search-bar"
 import { BuildingSidebar } from "@/components/building-sidebar"
 import { useBuildingInfo } from "@/hooks/use-building-info"
@@ -40,13 +39,6 @@ export function MapLayout() {
       </div>
 
       <SearchBar onSelectLocation={handleSelectLocation} />
-
-      {/* CTA Button */}
-      <div className="absolute bottom-6 right-6 z-10">
-        <Button size="lg" className="shadow-lg rounded-full px-6 py-6 text-base">
-          Entre em contato com um dos nossos agentes
-        </Button>
-      </div>
 
       <BuildingSidebar
         buildingInfo={buildingInfo}
