@@ -23,6 +23,7 @@ Nosso objetivo é entregar todas as informações já coletadas pelos órgãos r
 ## Tecnologias Utilizadas
 
 ### Mapa Interativo
+- [AcessToken](https://console.mapbox.com/account/access-tokens/)
 - [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/)
 - [React Map GL](https://visgl.github.io/react-map-gl/)
 
